@@ -13,7 +13,7 @@ yum install -y pure-ftpd
 ## 配置
 ```
 vi /etc/pure-ftpd/pure-ftpd.conf
-PureDB                      /etc/pure-ftpd/pureftpd.pdb
+PureDB                      /etc/pure-ftpd/pureftpd.pdb    开启密码配置文件
 MinUID                      1000
 ```
 
@@ -46,10 +46,18 @@ firewall-cmd --add-service=ftp --permanent
 firewall-cmd --reload
 ```
 
-## 测试
+## 本机测试
 ```
 yum install -y lftp
 lftp user1@127.0.0.1
+
+[root@VM-7-27-centos ftp]# lftp user1@127.0.0.1
+密码: 
+lftp user1@127.0.0.1:~> ls                      
+drwxr-xr-x    2 1000       ftpuser          4096 Dec 11 15:23 .
+drwxr-xr-x    2 1000       ftpuser          4096 Dec 11 15:23 ..
+-rw-r--r--    1 1000       ftpuser             0 Dec 11 15:23 a
+lftp user1@127.0.0.1:/>
 ```
 
 
