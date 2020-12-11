@@ -15,16 +15,16 @@ yum install -y pure-ftpd       使用yum命令安装pure-ftpd
 
 ## 配置
 ```
-vi /etc/pure-ftpd/pure-ftpd.conf
-PureDB                      /etc/pure-ftpd/pureftpd.pdb      开启密码配置文件，否则无法登录
-MinUID                      1000
+vim /etc/pure-ftpd/pure-ftpd.conf
+PureDB                       @sysconfigdir@/pureftpd.pdb      开启密码配置文件，否则无法登录
 ```
 
 ## 创建用户
 ```
 useradd ftpuser    创建系统用户
+
 mkdir /home/ftp    创建ftp操作目录
-chown ftpuser:ftpuser /home/ftp      修改属主和属组，改成pure-ftpd这个用户
+chown -R ftpuser:ftpuser /home/ftp      修改属主和属组，改成pure-ftpd这个用户
 ```
 
 ## 添加 FTP 虚拟用户并设置密码
@@ -78,6 +78,16 @@ lftp user1@127.0.0.1:/>
 ```
 走的ssh的端口 22
 支持SFTP的常用软件：filezilla xftp 
+```
+
+登陆报错：530 Login authentication failed
+```
+vim /etc/pure-ftpd/pure-ftpd.conf
+默认是1000 调整到 500
+MinUID                      500
+
+pure-ftpd配置中只允许uid大于等于500的,才可以登录ftp（系统安全考虑）
+我们可以修改配置，把uid阈值调小，也可以在pure-ftp网页管理中设置一个uid大于500的用户。
 ```
 
 |参数|说明
