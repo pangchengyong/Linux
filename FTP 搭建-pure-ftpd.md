@@ -82,6 +82,10 @@ lftp user1@127.0.0.1:/>
 
 ## 日志记录
 ```
+修改配置文件
+# 记录日志  vim /etc/pure-ftpd/pure-ftpd.conf
+VerboseLog                   yes
+
 建立文件 /var/log/pureftpd.log
 
 修改/etc/rsyslog.conf
