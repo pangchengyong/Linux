@@ -27,7 +27,7 @@ chown ftpuser:ftpuser /home/ftp    修改属主和属组，改成pure-ftpd这个
 
 ## 添加FTP用户
 ```
-pure-pw useradd     链接用户名 -u ftpuser -d 链接后可以操作的目录
+#pure-pw useradd 链接用户名 -u ftpuser -d 链接后可以操作的目录
 
 pure-pw useradd user1 -u ftpuser -d /home/ftp     用 pure-ftpd 创建 ftp user1 用户，-u 映射到系统用户，-d 指定ftp用户的家目录。
   Password:          输入2次密码
