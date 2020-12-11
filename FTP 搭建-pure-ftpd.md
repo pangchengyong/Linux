@@ -16,11 +16,11 @@ yum install -y pure-ftpd       使用yum命令安装pure-ftpd
 ## 配置
 ```
 vim /etc/pure-ftpd/pure-ftpd.conf
-PassivePortRange             30000 31000
-ForcePassiveIP               118.xxx.xxx.117    外网IP
+PassivePortRange             30000 31000                      被动模式端口范围
+ForcePassiveIP               118.xxx.xxx.117                  外网IP
 PureDB                       /etc/pure-ftpd/pureftpd.pdb      开启密码配置文件，否则无法登录 【这里一定要绝对路径】
 BrokenClientsCompatibility   yes                              兼容不同客户端
-NoAnonymous                  yes
+NoAnonymous                  yes                              不允许匿名用户连接
 ```
 
 ## 创建用户
