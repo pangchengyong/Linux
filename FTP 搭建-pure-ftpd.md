@@ -80,7 +80,32 @@ lftp user1@127.0.0.1:/>
 支持SFTP的常用软件：filezilla xftp 
 ```
 
-登陆报错：530 Login authentication failed
+## 日志记录
+```
+建立文件 /var/log/pureftpd.log
+
+修改/etc/rsyslog.conf
+在这行的cron.none后面添加 ;ftp.none 使ftp的日志信息成私有
+*.info;mail.none;authpriv.none;cron.none /var/log/messages为
+*.info;mail.none;authpriv.none;cron.none;ftp.none /var/log/messages
+
+在/etc/rsyslog.conf文件最后加上
+#pureftp日志
+
+ftp.*               -/var/log/pureftpd.log
+不要去掉/var前面的-号,否则日志会在/var/log/messages与/var/log/purefpd.log里各记录一份. 添加了-号,就只会记录在/var/log/purefptd.log内
+```
+
+使/etc/syslog.conf生效
+
+```
+重启系统日志     service rsyslog restart
+重启puerftpd     service pure-ftpd restart
+```
+
+
+## 遇到的问题
+### 登陆报错：530 Login authentication failed
 ```
 vim /etc/pure-ftpd/pure-ftpd.conf
 默认是1000 调整到 500
@@ -89,6 +114,13 @@ MinUID                      500
 pure-ftpd配置中只允许uid大于等于500的,才可以登录ftp（系统安全考虑）
 我们可以修改配置，把uid阈值调小，也可以在pure-ftp网页管理中设置一个uid大于500的用户。
 ```
+
+### lftp 本机可以连接 但是xshell 无法链接
+报错：SSH服务器拒绝了密码，请再试一次
+
+
+
+
 
 |参数|说明
 |--|--|        
@@ -125,3 +157,4 @@ PureDB /etc/pure-ftpd/pureftpd.pdb	|用户数据库文件。
 MaxDiskUsage 99|	当磁盘使用量打到99%时禁止上传。
 CreateHomeDir yes	|如果虚拟用户的目录不存在则自动创建。
 CustomerProof yes	|防止命令误操作。
+
