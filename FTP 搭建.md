@@ -16,7 +16,7 @@ yum install -y pure-ftpd
 ## 配置
 ```
 vi /etc/pure-ftpd/pure-ftpd.conf
-PureDB                      /etc/pure-ftpd/pureftpd.pdb    开启密码配置文件
+PureDB                      /etc/pure-ftpd/pureftpd.pdb    开启密码配置文件，否则无法登录
 MinUID                      1000
 ```
 
@@ -37,8 +37,10 @@ pure-pw useradd user1 -u ftpuser -d /home/ftp
   Password:          输入2次密码
   Enter it again: 
 
-pure-pw mkdb    创建ftp用户数据库文件，如果不执行这步是无法登录的。
-pure-pw list 
+pure-pw mkdb    创建用户信息数据库文件
+
+pure-pw list    查看用户列表
+pure-pw passwd user1   修改用户密码
 ```
 
 ## 启动
@@ -78,3 +80,37 @@ lftp user1@127.0.0.1:/>
 支持SFTP的常用软件：filezilla xftp 
 ```
 
+参数	               说明
+ChrootEveryone yes	启用chroot。
+BrokenClientsCompatibility yes	兼容不同客户端。
+Daemonize yes	后台运行。
+MaxClientsPerIP 20	每个ip最大连接数。
+VerboseLog yes	记录日志。
+DisplayDotFiles no	显示隐藏文件。
+AnonymousOnly no	只允许匿名用户访问。
+NoAnonymous yes	不允许匿名用户连接。
+SyslogFacility none	不将日志在syslog日志中显示。
+DontResolve yes	不进行客户端DNS解析。
+MaxIdleTime 15	最大空闲时间。
+LimitRecursion 2000 8	浏览限制，文件2000，目录8层。
+AnonymousCanCreateDirs no	匿名用户可以创建目录。
+MaxLoad 4	超出负载后禁止下载。
+PassivePortRange 45000 50000	被动模式端口范围。
+#AnonymousRatio 1 10	匿名用户上传/下载比率。
+UserRatio 1 10	所有用户上传/下载比率。
+AntiWarez yes	禁止下载匿名用户上传但未经验证的文件。
+AnonymousBandwidth 200	匿名用户带宽限制（KB）。
+UserBandwidth 8	所有用户最大带宽（KB）。
+Umask 133:022	创建文件/目录默认掩码。
+MinUID 100	最大UID限制。
+AllowUserFXP no	仅运行用户进行FXP传输。
+AllowAnonymousFXP no	对匿名用户和非匿名用户允许进行匿名 FXP 传输。
+ProhibitDotFilesWrite no	不能删除/写入隐藏文件。
+ProhibitDotFilesRead no	禁止读取隐藏文件。
+AutoRename yes	有同名文件时自动重新命名。
+AnonymousCantUpload yes	不允许匿名用户上传文件。
+AltLog clf:/var/log/pureftpd.log	clf格式日志文件位置。
+PureDB /etc/pure-ftpd/pureftpd.pdb	用户数据库文件。
+MaxDiskUsage 99	当磁盘使用量打到99%时禁止上传。
+CreateHomeDir yes	如果虚拟用户的目录不存在则自动创建。
+CustomerProof yes	防止命令误操作。
