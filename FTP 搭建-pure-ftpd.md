@@ -9,14 +9,14 @@ systemctl stop vsftpd
 
 ## 安装
 ```
-yum install -y epel-release
-yum install -y pure-ftpd
+yum install -y epel-release    先安装epel-release扩展源
+yum install -y pure-ftpd       使用yum命令安装pure-ftpd
 ```
 
 ## 配置
 ```
 vi /etc/pure-ftpd/pure-ftpd.conf
-PureDB                      /etc/pure-ftpd/pureftpd.pdb    开启密码配置文件，否则无法登录
+PureDB                      /etc/pure-ftpd/pureftpd.pdb      开启密码配置文件，否则无法登录
 MinUID                      1000
 ```
 
@@ -24,7 +24,7 @@ MinUID                      1000
 ```
 useradd ftpuser    创建系统用户
 mkdir /home/ftp    创建ftp操作目录
-chown ftpuser:ftpuser /home/ftp    修改属主和属组，改成pure-ftpd这个用户
+chown ftpuser:ftpuser /home/ftp      修改属主和属组，改成pure-ftpd这个用户
 ```
 
 ## 添加 FTP 虚拟用户并设置密码
