@@ -53,6 +53,7 @@ pure-pw passwd user1   修改用户密码
 ```
 systemctl start pure-ftpd
 
+防火墙没有开这里就别做
 firewall-cmd --add-port=21/tcp --permanent
 firewall-cmd --reload
 ```
