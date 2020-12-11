@@ -16,7 +16,11 @@ yum install -y pure-ftpd       使用yum命令安装pure-ftpd
 ## 配置
 ```
 vim /etc/pure-ftpd/pure-ftpd.conf
-PureDB                       @sysconfigdir@/pureftpd.pdb      开启密码配置文件，否则无法登录
+PassivePortRange             30000 31000
+ForcePassiveIP               118.xxx.xxx.117    外网IP
+PureDB                       /etc/pure-ftpd/pureftpd.pdb      开启密码配置文件，否则无法登录 【这里一定要绝对路径】
+BrokenClientsCompatibility   yes                              兼容不同客户端
+NoAnonymous                  yes
 ```
 
 ## 创建用户
@@ -25,6 +29,7 @@ useradd ftpuser    创建系统用户
 
 mkdir /home/ftp    创建ftp操作目录
 chown -R ftpuser:ftpuser /home/ftp      修改属主和属组，改成pure-ftpd这个用户
+
 ```
 
 ## 添加 FTP 虚拟用户并设置密码
@@ -40,6 +45,7 @@ pure-pw useradd user1 -u ftpuser -d /home/ftp
 pure-pw mkdb    创建用户信息数据库文件
 
 pure-pw list    查看用户列表
+pure-pw show user1   查看用户详情
 pure-pw passwd user1   修改用户密码
 ```
 
@@ -48,7 +54,6 @@ pure-pw passwd user1   修改用户密码
 systemctl start pure-ftpd
 
 firewall-cmd --add-port=21/tcp --permanent
-firewall-cmd --add-service=ftp --permanent
 firewall-cmd --reload
 ```
 
@@ -109,6 +114,10 @@ ftp.*               -/var/log/pureftpd.log
 
 
 ## 遇到的问题
+引用：https://blog.csdn.net/wssnxcj/article/details/82762009
+
+tail -f /var/log/messages
+
 ### 登陆报错：530 Login authentication failed
 ```
 vim /etc/pure-ftpd/pure-ftpd.conf
@@ -119,10 +128,31 @@ pure-ftpd配置中只允许uid大于等于500的,才可以登录ftp（系统安�
 我们可以修改配置，把uid阈值调小，也可以在pure-ftp网页管理中设置一个uid大于500的用户。
 ```
 
+
+### 链接报错 421 Unable to read the indexed puredb file (or old format detected) - Try pure-pw mkdb
+这个是配置不对，好好看上面引用。
+
 ### lftp 本机可以连接 但是xshell 无法链接
-报错：SSH服务器拒绝了密码，请再试一次
+报错：SSH服务器拒绝了密码，请再试一次。
 
-
+xshell 链接用21 端口链接。
+powershell 链接 直接输入 ftp IP
+```
+PS C:\Users\nick> ftp 118.xxx.xxx.117
+连接到 118.xxx.xxx.117。
+220---------- Welcome to Pure-FTPd [privsep] [TLS] ----------
+220-You are user number 1 of 50 allowed.
+220-Local time is now 19:19. Server port: 21.
+220-This is a private system - No anonymous login
+220-IPv6 connections are also welcome on this server.
+220 You will be disconnected after 15 minutes of inactivity.
+504 Unknown command
+用户(118.xxx.xxx.117:(none)): user1
+331 User user1 OK. Password required
+密码:
+230 OK. Current directory is /
+ftp>
+```
 
 
 
