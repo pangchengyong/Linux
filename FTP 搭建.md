@@ -1,15 +1,18 @@
-# pure-ftpd 搭建 FTP 并运行外联
+# pure-ftpd 搭建 FTP 并允许外联
+pure-ftpd比vsft更轻量，更简单
+
 ## 停掉vsftpd服务
+启动 pure-ftpd 前要先停止vsftpd，因为它同样监听21端口
 ```
 systemctl stop vsftpd
 ```
-
 
 ## 安装
 ```
 yum install -y epel-release
 yum install -y pure-ftpd
 ```
+
 ## 配置
 ```
 vi /etc/pure-ftpd/pure-ftpd.conf
@@ -18,18 +21,19 @@ MinUID                      1000
 ```
 
 ## 创建用户
-
 ```
-useradd ftpuser
-mkdir /home/ftp
+useradd ftpuser    创建系统用户
+mkdir /home/ftp    创建ftp操作目录
 chown ftpuser:ftpuser /home/ftp    修改属主和属组，改成pure-ftpd这个用户
 ```
 
-## 添加FTP用户
+## 添加 FTP 虚拟用户并设置密码
 ```
-#pure-pw useradd 链接用户名 -u ftpuser -d 链接后可以操作的目录
+命令解释：
+#pure-pw useradd 虚拟用户名 -u ftpuser -d 链接后可以操作的目录
+创建一个虚拟用户 user1 ，通过 -u 选项将 user1 与系统用户 ftpuser 关联在一起。-d 后面的目录是系统用户的目录。通过user1 登录后，将拥有系统用户 ftpuser 的一切权限
 
-pure-pw useradd user1 -u ftpuser -d /home/ftp     用 pure-ftpd 创建 ftp user1 用户，-u 映射到系统用户，-d 指定ftp用户的家目录。
+pure-pw useradd user1 -u ftpuser -d /home/ftp     
   Password:          输入2次密码
   Enter it again: 
 
@@ -51,6 +55,7 @@ firewall-cmd --reload
 yum install -y lftp
 lftp user1@127.0.0.1
 
+
 [root@VM-7-27-centos ftp]# lftp user1@127.0.0.1
 密码: 
 lftp user1@127.0.0.1:~> ls                      
@@ -62,8 +67,10 @@ lftp user1@127.0.0.1:/>
 
 
 ## Win测试
+```
 下载filezilla client https://filezilla-project.org/download.php?type=client
 安装
+```
 
 ## SFTP
 ```
