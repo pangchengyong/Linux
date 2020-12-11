@@ -9,18 +9,20 @@ yum install -y pure-ftpd
 vi /etc/pure-ftpd/pure-ftpd.conf
 PureDB                        /etc/pure-ftpd/pureftpd.pdb
 MinUID                      1000
+```
 
 ## 创建用户
 
 ```
-useradd ftpuser   #创建用户
-mkdir /home/ftp   #创建用户目录
-chown ftpuser:ftpuser /home/ftp  #修改宿主和用户
+useradd ftpuser
+mkdir /home/ftp
+chown ftpuser:ftpuser /home/ftp
 ```
 
 ## 添加FTP用户
 ```
-# pure-pw useradd 链接用户名 -u ftpuser -d /home/ftp 
+pure-pw useradd 链接用户名 -u ftpuser -d 链接后可以操作的目录
+
 pure-pw useradd user1 -u ftpuser -d /home/ftp 
 pure-pw mkdb
 pure-pw list 
