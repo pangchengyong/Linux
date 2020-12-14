@@ -60,3 +60,5 @@ mkdir /data/nick && cd /data/nick && mkdir upload download && chown nick downloa
 ```
 sftp -P 22 nick@111.111.111.111
 ```
+
+参考：https://blog.csdn.net/ManWZD/article/details/108442094
