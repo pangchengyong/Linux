@@ -5,6 +5,7 @@ sftp加密传输，设置也简单。ftp是不安全的协议
 ```
 [root@VM-7-27-centos ~]# ssh -V
 OpenSSH_8.0p1, OpenSSL 1.1.1c FIPS  28 May 2019
+老版本查看：https://www.jianshu.com/p/cc4750f9a8dd
 ```
 
 # 编辑配置
