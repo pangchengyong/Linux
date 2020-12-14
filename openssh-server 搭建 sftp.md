@@ -58,5 +58,5 @@ mkdir /data/nick && cd /data/nick && mkdir upload download && chown nick downloa
 
 # 链接
 ```
-sftp -P 22 nick@118.89.229.117
+sftp -P 22 nick@111.111.111.111
 ```
